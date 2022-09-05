@@ -7,11 +7,15 @@ function subtract(num1,num2){
 }
 
 function multiply(num1,num2){
-
+    return(num1*num2);
 }
 
 function divide(num1,num2){
-
+    if(num2===0){
+        return "Error: 0 Division";
+    }else{
+        return num1/num2;
+    }
 }
 
 function addTest(){
@@ -37,9 +41,22 @@ function subtractTest(){
 }
 
 function multiplyTest(){
-
+    const test1 = (multiply(2,1)===2)?`2 Positive integer test PASSED`:`2 Positive integer test FAILED`;
+    const test2 = (multiply(-1,-1)===1)?`2 Negative integer test PASSED`:`2 Negative integer test FAILED`;
+    const test3 = (multiply(-1,3)===-3)?`1 Negative & 1 Positive integer test PASSED`:`1 Negative & 1 Positive integer test FAILED`;
+    const test4 = (multiply(.25,4.0)===1)?`2 Posiitive double test PASSED`:`2 Positive double test FAILED`;
+    const test5 = (multiply(-1.5,-2)===3)?`2 Negative double test PASSED`:`2 Negative double test FAILED`;
+    const test6 = (multiply(-0.5,1)===-0.5)?`1 Positive double & 1 Negative double test PASSED`:`1 Positive double & 1 Negative double test FAILED`;
+    const result=[["test1",test1],["test2",test2],["test3",test3],["test4",test4],["test5",test5],["test6",test6]];
+    console.table(result);
 }
 
 function divideTest(){
-
+    const test1 = (divide(4,2)===2)?`2 Positive integer test PASSED`:`2 Positive integer test FAILED`;
+    const test2 = (divide(-6,-2)===3)?`2 Negative integer test PASSED`:`2 Negative integer test FAILED`;
+    const test3 = (divide(0,1)===0)?`Divide 0 by a value test PASSED`:`Divide 0 by a value test FAILED`;
+    const test4 = (divide(1,0)==="Error: 0 Division")?`0 as divisor test PASSED`:`0 as divisor test FAILED`;
+    const test5 = (divide(1.5,2)===0.75)?"1 Integer & 1 Double test PASSED":`1 Integer & 1 double test FAILED`;
+    const result = [["Test1",test1],["Test2",test2],["Test3",test3],["Test4",test4],["Test5",test5]];
+    console.table(result);
 }
