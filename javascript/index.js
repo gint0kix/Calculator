@@ -18,6 +18,11 @@ function divide(num1,num2){
     }
 }
 
+function operate(operand,values){
+    const num1 = values[0];
+    const num2 = values[1];
+    return operand(num1,num2);
+}
 function addTest(){
     const test1 = (add(1,2)===3)?`2 Positive integer test PASSED`:`2 Positive integer test FAILED`;
     const test2 = (add(-1,-1)===-2)?`2 Negative integer test PASSED`:`2 Negative integer test FAILED`;
@@ -28,7 +33,6 @@ function addTest(){
     const result=[["test1",test1],["test2",test2],["test3",test3],["test4",test4],["test5",test5],["test6",test6]];
     console.table(result);
 }
-
 function subtractTest(){
     const test1 = (subtract(2,1)===1)?`2 Positive integer test PASSED`:`2 Positive integer test FAILED`;
     const test2 = (subtract(-1,-1)===-0)?`2 Negative integer test PASSED`:`2 Negative integer test FAILED`;
@@ -39,7 +43,6 @@ function subtractTest(){
     const result=[["test1",test1],["test2",test2],["test3",test3],["test4",test4],["test5",test5],["test6",test6]];
     console.table(result);
 }
-
 function multiplyTest(){
     const test1 = (multiply(2,1)===2)?`2 Positive integer test PASSED`:`2 Positive integer test FAILED`;
     const test2 = (multiply(-1,-1)===1)?`2 Negative integer test PASSED`:`2 Negative integer test FAILED`;
@@ -50,7 +53,6 @@ function multiplyTest(){
     const result=[["test1",test1],["test2",test2],["test3",test3],["test4",test4],["test5",test5],["test6",test6]];
     console.table(result);
 }
-
 function divideTest(){
     const test1 = (divide(4,2)===2)?`2 Positive integer test PASSED`:`2 Positive integer test FAILED`;
     const test2 = (divide(-6,-2)===3)?`2 Negative integer test PASSED`:`2 Negative integer test FAILED`;
@@ -58,5 +60,13 @@ function divideTest(){
     const test4 = (divide(1,0)==="Error: 0 Division")?`0 as divisor test PASSED`:`0 as divisor test FAILED`;
     const test5 = (divide(1.5,2)===0.75)?"1 Integer & 1 Double test PASSED":`1 Integer & 1 double test FAILED`;
     const result = [["Test1",test1],["Test2",test2],["Test3",test3],["Test4",test4],["Test5",test5]];
+    console.table(result);
+}
+function operateTest(){
+    const test1 = (operate(add,[1,2])===3)?`Addition Test PASSED`:`Addition Test FAILED`;
+    const test2 = (operate(subtract,[2,1])===1)?`Subtraction Test PASSED`:`Subtraction Test FAILED`;
+    const test3 = (operate(multiply,[3,2])===6)?`Multiply Test PASSED`:`Multiply Test FAILED`;
+    const test4 = (operate(divide,[3.0,2])===1.5)?`Divide Test PASSED`:`Divide Test FAILED`;
+    const result = [["test1",test1],["test2",test2],["test3",test3],["test4",test4]];
     console.table(result);
 }
