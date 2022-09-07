@@ -1,48 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="stylesheet.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="stylesheet.css" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <div class="calc-container">
-        <div class="calc-display">DUMMY TEXT</div>
-        <div class="calc-interface">
-            <div class="row">
-                <button class="interface-btn operand">A/C</button>
-                <button class="interface-btn operand">+/-</button>
-                <button class="interface-btn operand">%</button>
-                <button class="interface-btn operand">/</button>
-            </div>
-            <div class="row">
-                <button class="interface-btn digit">7</button>
-                <button class="interface-btn digit">8</button>
-                <button class="interface-btn digit">9</button>
-                <button class="interface-btn operand">X</button>
-            </div>
-            <div class="row">
-                <button class="interface-btn digit">4</button>
-                <button class="interface-btn digit">5</button>
-                <button class="interface-btn digit">6</button>
-                <button class="interface-btn operand">-</button>
-            </div>
-            <div class="row">
-                <button class="interface-btn digit">1</button>
-                <button class="interface-btn digit">2</button>
-                <button class="interface-btn digit">3</button>
-                <button class="interface-btn operand">+</button>
-            </div>
-            <div class="row">
-                <button class="interface-btn digit" id="zero-button">0</button>
-                <button class="interface-btn digit">.</button>
-                <button class="interface-btn operand">=</button>
-
-            </div>
+      <div class="calc-display"></div>
+      <div class="calc-interface">
+        <div class="row">
+          <button class="interface-btn non-operand" id="clear-btn" value="clear">A/C</button>
+          <button class="interface-btn non-operand" id="parentheses-btn" value="parenthesis">( )</button>
+          <button class="interface-btn operand" id="percent-btn" value="%">%</button>
+          <button class="interface-btn operand" id="divide-btn" value="/">/</button>
         </div>
+        <div class="row">
+          <button class="interface-btn digit" value="7">7</button>
+          <button class="interface-btn digit" value="8">8</button>
+          <button class="interface-btn digit" value="9">9</button>
+          <button class="interface-btn operand" id="multiply-btn" value="x">X</button>
+        </div>
+        <div class="row">
+          <button class="interface-btn digit" value="4">4</button>
+          <button class="interface-btn digit" value="5">5</button>
+          <button class="interface-btn digit" value="6">6</button>
+          <button class="interface-btn operand" id="subtract-btn" value="-">-</button>
+        </div>
+        <div class="row">
+          <button class="interface-btn digit" value="1">1</button>
+          <button class="interface-btn digit" value="2">2</button>
+          <button class="interface-btn digit" value="3">3</button>
+          <button class="interface-btn operand" id="addition-btn" value="+">+</button>
+        </div>
+        <div class="row">
+          <button class="interface-btn digit" id="zero-button" value="0">
+            0
+          </button>
+          <button class="interface-btn" id="decimal-btn" value=".">.</button>
+          <button class="interface-btn non-operand" id="equals-btn" value="equals">=</button>
+        </div>
+      </div>
     </div>
-</body>
-<script src="/javascript/index.js" defer></script>
+  </body>
+  <script src="/javascript/index.js" defer></script>
 </html>
