@@ -196,36 +196,97 @@ const MULTIPLY_BUTTON = document.querySelector(`#multiply-btn`);
 const SUBTRACTION_BUTTON = document.querySelector(`#subtract-btn`);
 const ADDITION_BUTTON = document.querySelector(`#addition-btn`);
 const CLEAR_BUTTON = document.querySelector(`#clear-btn`);
+const EQUALS_BUTTON = document.querySelector(`#equals-btn`);
+
+function isDigit(stringValue){
+  const DIGITS_STRING = "0123456789";
+  console.log(`current string ${stringValue} ${DIGITS_STRING.includes(stringValue)}`)
+  return DIGITS_STRING.includes(stringValue);
+}
 
 function digitOnClickHandler(e) {
   const digitValue = e.target.value;
-  console.log(digitValue);
   userInput = `${userInput}${digitValue}`;
   CALC_DISPLAY.textContent = userInput;
 }
 
-function basicOperandClickHandler(e){
-    const BTN_VALUE = e.target.value;
-    if (
-        DIGITS_STRING.includes(userInput.charAt(userInput.length - 1)) &&
-        userInput.length !== 0
-      ) {
-        userInput = `${userInput}${BTN_VALUE}`;
-      }else if(OPERANDS_STRING.includes(userInput.charAt(userInput.length-1)) && userInput.length!==0){
-        userInput = `${userInput.slice(0,userInput.length-1)}${BTN_VALUE}`;
-      }
-      CALC_DISPLAY.textContent = userInput;
+function basicOperandClickHandler(e) {
+  const BTN_VALUE = e.target.value;
+  const USERINPUT_LAST_INDEX = userInput.length-1;
+  const USERINPUT_LAST_CHAR = userInput.charAt(USERINPUT_LAST_INDEX);
+  if (
+    isDigit(USERINPUT_LAST_CHAR) &&
+    userInput.length !== 0
+  ) {
+    userInput = `${userInput}${BTN_VALUE}`;
+  } else if (
+    OPERANDS_STRING.includes(USERINPUT_LAST_CHAR) &&
+    userInput.length !== 0
+  ) {
+    userInput = `${userInput.slice(0, USERINPUT_LAST_INDEX)}${BTN_VALUE}`;
+  }
+  CALC_DISPLAY.textContent = userInput;
 }
 
-function subtractionClickHandler(e){
+function subtractionClickHandler(e) {
   const BUTTON_VALUE = e.target.value;
-  if(userInput.charAt(userInput.length-1)===BUTTON_VALUE){
+  if (userInput.charAt(userInput.length - 1) === BUTTON_VALUE) {
     return;
-  }
-  else{
+  } else {
     userInput = `${userInput}${BUTTON_VALUE}`;
   }
   CALC_DISPLAY.textContent = userInput;
+}
+
+function findValuesForOperandPositions(targetOperand,expression){
+  const expressionLastIndex = expression.length-1;
+  const OPERAND_INDEX = expression.indexOf(targetOperand);
+
+  //Search left-side of operand until you reach either an operand(excluding - ) or beginning of expression
+  let left_pointer_index = OPERAND_INDEX - 1;
+  leftSearcher:for(let i=left_pointer_index;i>0;i--){
+    let currentStringValue = expression[i];
+    if(isDigit(currentStringValue)){
+      console.log('')
+    }else if(currentStringValue === "-"){
+      console.log('exiting cuz of minus')
+      left_pointer_index = i;
+      break leftSearcher;
+    }else{
+      console.log('exiting cuz of not digit or -')
+      left_pointer_index = i++;
+      break leftSearcher;
+    }
+  }
+  //Search right-side of operand until you reach an operand or end of expression
+  let right_pointer_index = OPERAND_INDEX + 1;
+  rightSearcher:for(let i=right_pointer_index;i<expressionLastIndex;i++){
+    let currentStringValue = expression[i];
+    if(isDigit(currentStringValue)){
+    }else{
+      right_pointer_index = --i;
+      break rightSearcher;
+    }
+  }
+
+  const resultOfSearch = {
+    "StartOfSubstring":left_pointer_index,
+    "EndOfSubString":right_pointer_index,
+    "Expression":expression,
+  }
+  return resultOfSearch;
+}
+
+let result =findValuesForOperandPositions('x',"1-12x33+1");
+console.table(result);
+
+function equalsButtonOnClickHandler(e){
+  let expression = CALC_DISPLAY.textContent;
+  if(expression.length===0){return}
+  while(expression.includes('x')){
+
+  }
+
 }
 DIGIT_BUTTONS.forEach((button) => {
   button.addEventListener("click", (e) => {
@@ -233,12 +294,28 @@ DIGIT_BUTTONS.forEach((button) => {
   });
 });
 
-ADDITION_BUTTON.addEventListener("click", (e) => {basicOperandClickHandler(e);});
+ADDITION_BUTTON.addEventListener("click", (e) => {
+  basicOperandClickHandler(e);
+});
 
-MULTIPLY_BUTTON.addEventListener('click',(e)=>{basicOperandClickHandler(e)});
+MULTIPLY_BUTTON.addEventListener("click", (e) => {
+  basicOperandClickHandler(e);
+});
 
-DIVISION_BUTTON.addEventListener(`click`,(e)=>{basicOperandClickHandler(e)});
+DIVISION_BUTTON.addEventListener(`click`, (e) => {
+  basicOperandClickHandler(e);
+});
 
-SUBTRACTION_BUTTON.addEventListener(`click`,(e)=>{
+SUBTRACTION_BUTTON.addEventListener(`click`, (e) => {
   subtractionClickHandler(e);
+});
+
+CLEAR_BUTTON.addEventListener('click',(e)=>{
+  userInput = "";
+  CALC_DISPLAY.textContent = userInput;
+});
+
+EQUALS_BUTTON.addEventListener(`click`,(e)=>{
+  equalsButtonOnClickHandler(e);
 })
+
