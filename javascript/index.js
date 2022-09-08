@@ -216,6 +216,17 @@ function basicOperandClickHandler(e){
       }
       CALC_DISPLAY.textContent = userInput;
 }
+
+function subtractionClickHandler(e){
+  const BUTTON_VALUE = e.target.value;
+  if(userInput.charAt(userInput.length-1)===BUTTON_VALUE){
+    return;
+  }
+  else{
+    userInput = `${userInput}${BUTTON_VALUE}`;
+  }
+  CALC_DISPLAY.textContent = userInput;
+}
 DIGIT_BUTTONS.forEach((button) => {
   button.addEventListener("click", (e) => {
     digitOnClickHandler(e);
@@ -227,3 +238,7 @@ ADDITION_BUTTON.addEventListener("click", (e) => {basicOperandClickHandler(e);})
 MULTIPLY_BUTTON.addEventListener('click',(e)=>{basicOperandClickHandler(e)});
 
 DIVISION_BUTTON.addEventListener(`click`,(e)=>{basicOperandClickHandler(e)});
+
+SUBTRACTION_BUTTON.addEventListener(`click`,(e)=>{
+  subtractionClickHandler(e);
+})
