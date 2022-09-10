@@ -342,28 +342,41 @@ function parseExpression(targetOperand, expression){
   let operandIndex = expression.indexOf(targetOperand);
   let firstNum = Number(expression.substring(0,operandIndex));
   let secondNum = Number(expression.substring(operandIndex+1));
+  let operand;
+  switch(targetOperand){
+    case("x"):
+      operand = multiply;
+      break;
+    case("/"):
+      operand = divide;
+      break;
+    case("+"):
+      operand = add;
+      break;
+  }
+
   const result = {
     "num1":firstNum,
     "num2":secondNum,
-    "operand":targetOperand
+    "operand":operand
   }
   return result;
 }
 
 function parseExpressionTest(){
   const actual_1 = parseExpression("x","33x4");
-  const expected_1 = {"num1":33,"num2":4,"operand":"x"};
+  const expected_1 = {"num1":33,"num2":4,"operand":multiply};
   const result1 = areObjectsEqual(actual_1,expected_1) ? "PASSED":"FAILED"
 
-  const actual_2 = parseExpression("x","-30x-42");
-  const expected_2 = {"num1":-30,"num2":-42,"operand":"x"};
+  const actual_2 = parseExpression("+","-30+-42");
+  const expected_2 = {"num1":-30,"num2":-42,"operand":add};
   const result2 = areObjectsEqual(actual_2,expected_2)? "PASSED":"FAILED"
 
   const actual_3 = parseExpression("x","-1x42");
-  const expected_3 = {"num1":-1,"num2":42,"operand":"x"}
+  const expected_3 = {"num1":-1,"num2":42,"operand":multiply}
   const result3 = areObjectsEqual(actual_3,expected_3)?"PASSED":"FAILED";
 
-  const testResults = [[result1,actual_1],[result2,actual_2,expected_2],[result3,actual_3]];
+  const testResults = [[result1,actual_1],[result2,actual_2],[result3,actual_3]];
   console.table(testResults);
 }
 function equalsButtonOnClickHandler(e){
