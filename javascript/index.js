@@ -18,9 +18,7 @@ function divide(num1, num2) {
   }
 }
 
-function operate(operand, values) {
-  const num1 = values[0];
-  const num2 = values[1];
+function operate(operand, num1, num2) {
   return operand(num1, num2);
 }
 function addTest() {
@@ -160,19 +158,19 @@ function divideTest() {
 }
 function operateTest() {
   const test1 =
-    operate(add, [1, 2]) === 3
+    operate(add, 1, 2) === 3
       ? `Addition Test PASSED`
       : `Addition Test FAILED`;
   const test2 =
-    operate(subtract, [2, 1]) === 1
+    operate(subtract, 2, 1) === 1
       ? `Subtraction Test PASSED`
       : `Subtraction Test FAILED`;
   const test3 =
-    operate(multiply, [3, 2]) === 6
+    operate(multiply, 3, 2) === 6
       ? `Multiply Test PASSED`
       : `Multiply Test FAILED`;
   const test4 =
-    operate(divide, [3.0, 2]) === 1.5
+    operate(divide, 3.0, 2) === 1.5
       ? `Divide Test PASSED`
       : `Divide Test FAILED`;
   const result = [
@@ -277,6 +275,7 @@ function areObjectsEqualTest(){
 /* Input = String targetOperand; String expression
 *  
 *  Finds the first substring in the given expression, that contains the specified operand
+*  Returns the beginning index & ending index of the substring
 */
 function findValuesForOperandPositions(targetOperand,expression){
   const expressionLastIndex = expression.length-1;
@@ -331,11 +330,42 @@ const actual_2 = findValuesForOperandPositions("x","2+33x-41x5");
 const expected_2 = {"StartOfSubString":2,"EndOfSubString":7};
 const result2 = areObjectsEqual(actual_2,expected_2)?"PASSED, difficult multiplcation":"FAILED, difficult multiplcation";
 
-const testResults = [result1,result2];
+//Really difficult multiplcation
+const actual_3 = findValuesForOperandPositions("x","2-3x-4+1");
+const expected_3 = {"StartOfSubString":1,"EndOfSubString":5};
+const result3 = areObjectsEqual(actual_3,expected_3)?"PASSED, really difficult multiplcation":"FAILED, really difficult multiplcation";
+const testResults = [result1,result2,result3];
 console.table(testResults);
 }
 
+function parseExpression(targetOperand, expression){
+  let operandIndex = expression.indexOf(targetOperand);
+  let firstNum = Number(expression.substring(0,operandIndex));
+  let secondNum = Number(expression.substring(operandIndex+1));
+  const result = {
+    "num1":firstNum,
+    "num2":secondNum,
+    "operand":targetOperand
+  }
+  return result;
+}
 
+function parseExpressionTest(){
+  const actual_1 = parseExpression("x","33x4");
+  const expected_1 = {"num1":33,"num2":4,"operand":"x"};
+  const result1 = areObjectsEqual(actual_1,expected_1) ? "PASSED":"FAILED"
+
+  const actual_2 = parseExpression("x","-30x-42");
+  const expected_2 = {"num1":-30,"num2":-42,"operand":"x"};
+  const result2 = areObjectsEqual(actual_2,expected_2)? "PASSED":"FAILED"
+
+  const actual_3 = parseExpression("x","-1x42");
+  const expected_3 = {"num1":-1,"num2":42,"operand":"x"}
+  const result3 = areObjectsEqual(actual_3,expected_3)?"PASSED":"FAILED";
+
+  const testResults = [[result1,actual_1],[result2,actual_2,expected_2],[result3,actual_3]];
+  console.table(testResults);
+}
 function equalsButtonOnClickHandler(e){
   let expression = CALC_DISPLAY.textContent;
   if(expression.length===0){return}
