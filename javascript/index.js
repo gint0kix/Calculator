@@ -18,8 +18,9 @@ function divide(num1, num2) {
   }
 }
 
+//Returns the result of the given operand with the given numbers
 function operate(operand, num1, num2) {
-  return operand(num1, num2);
+  return operand(Number(num1), Number(num2));
 }
 function addTest() {
   const test1 =
@@ -158,9 +159,7 @@ function divideTest() {
 }
 function operateTest() {
   const test1 =
-    operate(add, 1, 2) === 3
-      ? `Addition Test PASSED`
-      : `Addition Test FAILED`;
+    operate(add, 1, 2) === 3 ? `Addition Test PASSED` : `Addition Test FAILED`;
   const test2 =
     operate(subtract, 2, 1) === 1
       ? `Subtraction Test PASSED`
@@ -196,8 +195,8 @@ const ADDITION_BUTTON = document.querySelector(`#addition-btn`);
 const CLEAR_BUTTON = document.querySelector(`#clear-btn`);
 const EQUALS_BUTTON = document.querySelector(`#equals-btn`);
 
-function isDigit(stringValue){
-  const DIGITS_STRING = "0123456789";
+function isDigit(stringValue) {
+  const DIGITS_STRING = ".0123456789";
   return DIGITS_STRING.includes(stringValue);
 }
 
@@ -209,12 +208,9 @@ function digitOnClickHandler(e) {
 
 function basicOperandClickHandler(e) {
   const BTN_VALUE = e.target.value;
-  const USERINPUT_LAST_INDEX = userInput.length-1;
+  const USERINPUT_LAST_INDEX = userInput.length - 1;
   const USERINPUT_LAST_CHAR = userInput.charAt(USERINPUT_LAST_INDEX);
-  if (
-    isDigit(USERINPUT_LAST_CHAR) &&
-    userInput.length !== 0
-  ) {
+  if (isDigit(USERINPUT_LAST_CHAR) && userInput.length !== 0) {
     userInput = `${userInput}${BTN_VALUE}`;
   } else if (
     OPERANDS_STRING.includes(USERINPUT_LAST_CHAR) &&
@@ -235,64 +231,76 @@ function subtractionClickHandler(e) {
   CALC_DISPLAY.textContent = userInput;
 }
 
-function areObjectsEqual(obj1,obj2){
-
+function areObjectsEqual(obj1, obj2) {
   const OBJ1_KEYS = Object.keys(obj1);
   const OBJ2_KEYS = Object.keys(obj2);
   const OBJ1_VALUES = Object.values(obj1);
   const OBJ2_VALUES = Object.values(obj2);
 
-  if(OBJ1_KEYS.length!==OBJ2_KEYS.length){return false;}
-  if(OBJ1_VALUES.length!==OBJ2_VALUES.length){return false;}
-
-  for(let i=0;i<OBJ1_KEYS.length;i++){
-    if(OBJ1_KEYS[i]!==OBJ2_KEYS[i]){return false;}
+  if (OBJ1_KEYS.length !== OBJ2_KEYS.length) {
+    return false;
+  }
+  if (OBJ1_VALUES.length !== OBJ2_VALUES.length) {
+    return false;
   }
 
-  for(let y=0;y<OBJ2_VALUES.length;y++){
-    if(OBJ1_VALUES[y]!==OBJ2_VALUES[y]){return false}
+  for (let i = 0; i < OBJ1_KEYS.length; i++) {
+    if (OBJ1_KEYS[i] !== OBJ2_KEYS[i]) {
+      return false;
+    }
   }
-  return true
+
+  for (let y = 0; y < OBJ2_VALUES.length; y++) {
+    if (OBJ1_VALUES[y] !== OBJ2_VALUES[y]) {
+      return false;
+    }
+  }
+  return true;
 }
 
-function areObjectsEqualTest(){
-  const test1_Obj1 = {"prop1":12,"prop2":"123"};
-  const test1_Obj2 = {"prop1":12,"prop2":"123"};
-  const Test1 = areObjectsEqual(test1_Obj1,test1_Obj2) ? "Test1 PASSED, same object":"Test1 FAILED, same object";
+function areObjectsEqualTest() {
+  const test1_Obj1 = { prop1: 12, prop2: "123" };
+  const test1_Obj2 = { prop1: 12, prop2: "123" };
+  const Test1 = areObjectsEqual(test1_Obj1, test1_Obj2)
+    ? "Test1 PASSED, same object"
+    : "Test1 FAILED, same object";
 
-  const test2_Obj1 ={"prop1":"123","prop2":2};
-  const test2_Obj2 = {"prop":"123","prop2":2};
-  const Test2 = areObjectsEqual(test2_Obj1,test2_Obj2)?"Test2 FAILED, differnt properties":"Test2 PASSED, different properties";
+  const test2_Obj1 = { prop1: "123", prop2: 2 };
+  const test2_Obj2 = { prop: "123", prop2: 2 };
+  const Test2 = areObjectsEqual(test2_Obj1, test2_Obj2)
+    ? "Test2 FAILED, differnt properties"
+    : "Test2 PASSED, different properties";
 
-  const test3_Obj1 = {"prop1":"aa","prop2":3};
-  const test3_Obj2 = {"prop1":"a","prop2":3};
-  const Test3 = areObjectsEqual(test3_Obj1,test3_Obj2)?"Test3 FAILED, different values":"Test3 PASSED,different values";
+  const test3_Obj1 = { prop1: "aa", prop2: 3 };
+  const test3_Obj2 = { prop1: "a", prop2: 3 };
+  const Test3 = areObjectsEqual(test3_Obj1, test3_Obj2)
+    ? "Test3 FAILED, different values"
+    : "Test3 PASSED,different values";
 
-  const result = [Test1,Test2,Test3];
+  const result = [Test1, Test2, Test3];
   console.table(result);
 }
 
 /* Input = String targetOperand; String expression
-*  
-*  Finds the first substring in the given expression, that contains the specified operand
-*  Returns the beginning index & ending index of the substring
-*/
-function findValuesForOperandPositions(targetOperand,expression){
-  const expressionLastIndex = expression.length-1;
+ *
+ *  Finds the first substring in the given expression, that contains the specified operand
+ *  Returns the beginning index & ending index of the substring
+ */
+function findValuesForOperandPositions(targetOperand, expression) {
+  const expressionLastIndex = expression.length - 1;
   const OPERAND_INDEX = expression.indexOf(targetOperand);
 
   //Search left-side of operand until you reach either an operand(excluding - ) or beginning of expression
   let left_pointer_index = OPERAND_INDEX - 1;
-  leftSearcher:for(let i=left_pointer_index;i>=0;i--){
+  leftSearcher: for (let i = left_pointer_index; i >= 0; i--) {
     let currentStringValue = expression[i];
-    if(isDigit(currentStringValue)){
-      left_pointer_index =i;
-    }else if(currentStringValue === "-"){
-
+    if (isDigit(currentStringValue)) {
+      left_pointer_index = i;
+    } else if (currentStringValue === "-") {
       left_pointer_index = i;
       break leftSearcher;
-    }else{
-      left_pointer_index = i+1;
+    } else {
+      left_pointer_index = i + 1;
       break leftSearcher;
     }
   }
@@ -300,92 +308,187 @@ function findValuesForOperandPositions(targetOperand,expression){
   //Search right-side of operand until you reach an operand or end of expression
 
   let right_pointer_index = OPERAND_INDEX + 1;
-  rightSearcher:for(let i=right_pointer_index;i<=expressionLastIndex;i++){
+  let seenNegative = false;
+  rightSearcher: for (
+    let i = right_pointer_index;
+    i <= expressionLastIndex;
+    i++
+  ) {
     let currentStringValue = expression[i];
-    if(isDigit(currentStringValue)){
+
+    if (isDigit(currentStringValue)) {
+      seenNegative = true;
       right_pointer_index = i;
-    }else if(currentStringValue === "-"){
+    } else if (currentStringValue === "-" && !seenNegative) {
+      seenNegative = true;
       right_pointer_index = i;
-    }else{
+    } else {
       right_pointer_index = --i;
       break rightSearcher;
     }
   }
 
   const resultOfSearch = {
-    "StartOfSubString":left_pointer_index,
-    "EndOfSubString":right_pointer_index,
-  }
+    StartOfSubString: left_pointer_index,
+    EndOfSubString: right_pointer_index,
+  };
   return resultOfSearch;
 }
 
-function findValuesForOperandPositionsTest(){
-//Simple multiplication 
-const actual_1 = findValuesForOperandPositions("x","33x21");
-const expected_1 = {"StartOfSubString":0,"EndOfSubString":4};
-const result1 = areObjectsEqual(actual_1,expected_1)?"PASSED, simple multiplcation":"FAILED, simple multiplcation ";
+function findValuesForOperandPositionsTest() {
+  //Simple multiplication
+  const actual_1 = findValuesForOperandPositions("x", "33x21");
+  const expected_1 = { StartOfSubString: 0, EndOfSubString: 4 };
+  const result1 = areObjectsEqual(actual_1, expected_1)
+    ? "PASSED, simple multiplcation"
+    : "FAILED, simple multiplcation ";
 
-//Difficult multiplcation
-const actual_2 = findValuesForOperandPositions("x","2+33x-41x5");
-const expected_2 = {"StartOfSubString":2,"EndOfSubString":7};
-const result2 = areObjectsEqual(actual_2,expected_2)?"PASSED, difficult multiplcation":"FAILED, difficult multiplcation";
+  //Difficult multiplcation
+  const actual_2 = findValuesForOperandPositions("x", "2+33x-41x5");
+  const expected_2 = { StartOfSubString: 2, EndOfSubString: 7 };
+  const result2 = areObjectsEqual(actual_2, expected_2)
+    ? "PASSED, difficult multiplcation"
+    : "FAILED, difficult multiplcation";
 
-//Really difficult multiplcation
-const actual_3 = findValuesForOperandPositions("x","2-3x-4+1");
-const expected_3 = {"StartOfSubString":1,"EndOfSubString":5};
-const result3 = areObjectsEqual(actual_3,expected_3)?"PASSED, really difficult multiplcation":"FAILED, really difficult multiplcation";
-const testResults = [result1,result2,result3];
-console.table(testResults);
+  //Really difficult multiplcation
+  const actual_3 = findValuesForOperandPositions("x", "2-3x-4+1");
+  const expected_3 = { StartOfSubString: 1, EndOfSubString: 5 };
+  const result3 = areObjectsEqual(actual_3, expected_3)
+    ? "PASSED, really difficult multiplcation"
+    : "FAILED, really difficult multiplcation";
+
+  //Expression with multiple subtraction signs
+  const actual_4 = findValuesForOperandPositions("x", "2x-3-3-1");
+  const expected_4 = { StartOfSubString: 0, EndOfSubString: 3 };
+  const result_4 = areObjectsEqual(actual_4, expected_4)
+    ? "PASSED, multipe negative signs"
+    : "FAILED, multiple negative signs";
+  const testResults = [result1, result2, result3, result_4];
+  console.table(testResults);
 }
-
-function parseExpression(targetOperand, expression){
+/* Returns an object with values of (Number)num1, (Number)num2, and (Function)operand
+ *
+ */
+function parseExpression(targetOperand, expression) {
   let operandIndex = expression.indexOf(targetOperand);
-  let firstNum = Number(expression.substring(0,operandIndex));
-  let secondNum = Number(expression.substring(operandIndex+1));
+  let firstNum = Number(expression.substring(0, operandIndex));
+  let secondNum = Number(expression.substring(operandIndex + 1));
   let operand;
-  switch(targetOperand){
-    case("x"):
+  switch (targetOperand) {
+    case "x":
       operand = multiply;
       break;
-    case("/"):
+    case "/":
       operand = divide;
       break;
-    case("+"):
+    case "+":
       operand = add;
       break;
+    case "-":
+      operand = subtract;
   }
 
   const result = {
-    "num1":firstNum,
-    "num2":secondNum,
-    "operand":operand
+    num1: firstNum,
+    num2: secondNum,
+    operand: operand,
+  };
+  return result;
+}
+
+function parseExpressionTest() {
+  const actual_1 = parseExpression("x", "33x4");
+  const expected_1 = { num1: 33, num2: 4, operand: multiply };
+  const result1 = areObjectsEqual(actual_1, expected_1) ? "PASSED" : "FAILED";
+
+  const actual_2 = parseExpression("+", "-30+-42");
+  const expected_2 = { num1: -30, num2: -42, operand: add };
+  const result2 = areObjectsEqual(actual_2, expected_2) ? "PASSED" : "FAILED";
+
+  const actual_3 = parseExpression("x", "-1x42");
+  const expected_3 = { num1: -1, num2: 42, operand: multiply };
+  const result3 = areObjectsEqual(actual_3, expected_3) ? "PASSED" : "FAILED";
+
+  const testResults = [
+    [result1, actual_1],
+    [result2, actual_2],
+    [result3, actual_3],
+  ];
+  console.table(testResults);
+}
+
+function simplifyExpression(operator, expression) {
+  let result = expression;
+  if (operator === "-") {
+    operator = "+";
+    result = result.replace(/-/g, "+-");
+    if (result[0] === "+") {
+      result = result.substring(1);
+    }
+  }
+  while (result.includes(operator)) {
+    let { StartOfSubString, EndOfSubString } = findValuesForOperandPositions(
+      operator,
+      result
+    );
+    let currentExpression = result.substring(
+      StartOfSubString,
+      EndOfSubString + 1
+    );
+    console.log(currentExpression);
+    let { num1, num2, operand } = parseExpression(operator, currentExpression);
+
+    let operationResult = operate(operand, num1, num2);
+
+    if(isDigit(result[StartOfSubString-1])){
+      operationResult = `+${operationResult}`;
+    }
+    let startHalf = result.substring(0,StartOfSubString);
+    let endHalf = result.substring(EndOfSubString+1);
+    result = `${startHalf}${operationResult}${endHalf}`;
   }
   return result;
 }
 
-function parseExpressionTest(){
-  const actual_1 = parseExpression("x","33x4");
-  const expected_1 = {"num1":33,"num2":4,"operand":multiply};
-  const result1 = areObjectsEqual(actual_1,expected_1) ? "PASSED":"FAILED"
+function calculateExpression(expression){
+  expression = simplifyExpression("x", expression);
+  console.log(`After multiplcation ${expression}`);
+  expression = simplifyExpression("/", expression);
+  console.log(`After division ${expression}`);
+  expression = simplifyExpression("+", expression);
+  console.log(`After addition ${expression}`);
+  expression = simplifyExpression("-", expression);
+  console.log(`After subtraction ${expression}`);
+  return Number(expression);
+}
 
-  const actual_2 = parseExpression("+","-30+-42");
-  const expected_2 = {"num1":-30,"num2":-42,"operand":add};
-  const result2 = areObjectsEqual(actual_2,expected_2)? "PASSED":"FAILED"
+function calculateExpressionTest(){
+  const test_1 = calculateExpression("2+7-8-12/4");
+  const test_2 = calculateExpression("2x-3+4/2-4");
+  const test_3 = calculateExpression("2x3x4x-12");
+  const test_4 = calculateExpression("6+3/3-3+1-2");
+  const test_5 = calculateExpression("2x4/2-2-3+12");
+  const test_6 = calculateExpression("-4/2-4x3x2+4-2")
 
-  const actual_3 = parseExpression("x","-1x42");
-  const expected_3 = {"num1":-1,"num2":42,"operand":multiply}
-  const result3 = areObjectsEqual(actual_3,expected_3)?"PASSED":"FAILED";
+  const result1 = test_1 === -2 ? "PASSED Test 1": "FAILED Test 1"
+  const result2 = test_2 === -8 ? "PASSED Test 2": "FAILED Test 2"
+  const result3 = test_3 === -288 ? "PASSED Test 3": "FAILED Test 3"
+  const result4 = test_4 === 3 ? "PASSED Test 4": "FAILED Test 4"
+  const result5 = test_5 === 11 ? "PASSED Test 5": "FAILED Test 5"
+  const result6 = test_6 === -24 ? "PASSED Test 6": "FAILED Test 6"
 
-  const testResults = [[result1,actual_1],[result2,actual_2],[result3,actual_3]];
+  const testResults = [result1,result2,result3,result4,[result5,test_5],result6];
   console.table(testResults);
 }
-function equalsButtonOnClickHandler(e){
+function equalsButtonOnClickHandler(e) {
   let expression = CALC_DISPLAY.textContent;
-  if(expression.length===0){return}
-  //while(expression.includes('x')){
-//
-  //}
-
+  if (expression.length === 0) {
+    return;
+  }
+  String(expression) = calculateExpression(expression)
+  
+  CALC_DISPLAY.textContent = expression;
+  userInput = "";
 }
 DIGIT_BUTTONS.forEach((button) => {
   button.addEventListener("click", (e) => {
@@ -409,12 +512,11 @@ SUBTRACTION_BUTTON.addEventListener(`click`, (e) => {
   subtractionClickHandler(e);
 });
 
-CLEAR_BUTTON.addEventListener('click',(e)=>{
+CLEAR_BUTTON.addEventListener("click", (e) => {
   userInput = "";
   CALC_DISPLAY.textContent = userInput;
 });
 
-EQUALS_BUTTON.addEventListener(`click`,(e)=>{
+EQUALS_BUTTON.addEventListener(`click`, (e) => {
   equalsButtonOnClickHandler(e);
-})
-
+});
